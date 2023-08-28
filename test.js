@@ -1,6 +1,6 @@
 async function runPuppeteer(data, position, signature, callback) {
   try {
-    const response = await fetch('http://localhost:3000/run-puppeteer', {
+    const response = await fetch('http://localhost:3001/run-puppeteer', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -30,9 +30,9 @@ const addressSent = document.querySelector('.address-sent-letter__input');
 const addressMail = document.querySelector('.address-mail__input');
 const nameOwn = document.querySelector('.name-own__input');
 const showUrl = document.querySelector('.show-url__input');
-const branch = document.querySelector('.branch__input');
+// const branch = document.querySelector('.branch__input');
 const country = document.querySelector('.country__select');
-const trademarkRegister = document.querySelector('.trademark-register__input');
+// const trademarkRegister = document.querySelector('.trademark-register__input');
 const provideUrl = document.querySelector('.provide-url__input');
 const provideInfo = document.querySelector('.provide-infor__input');
 const electronicSignature = document.querySelector(
@@ -65,11 +65,11 @@ start.addEventListener('click', async () => {
     start.classList.add('disabled');
     start.disabled = true;
     result.value += '==> Bắt đầu spam !!!\n';
-    if (selectInnerNameText === 'Nhãn Hiệu') {
-      result.value += '==> Link Nhãn Hiệu :\n';
+    if (selectInnerNameText === 'Bản quyền Facebook') {
+      result.value += '==> Link Bản quyền Facebook :\n';
       selectInnerName = '1';
-    } else if (selectInnerNameText === 'Hàng Giả') {
-      result.value += '==> Link Hàng Giả :\n';
+    } else if (selectInnerNameText === 'Bản Quyền Instagram') {
+      result.value += '==> Link Bản Quyền Instagram :\n';
       selectInnerName = '2';
     }
     data = {
@@ -81,9 +81,9 @@ start.addEventListener('click', async () => {
       addressMail: addressMail.value,
       nameOwn: nameOwn.value,
       showUrl: showUrl.value,
-      branch: branch.value,
+      // branch: branch.value,
       countryName,
-      trademarkRegister: trademarkRegister.value,
+      // trademarkRegister: trademarkRegister.value,
       provideUrl: provideUrl.value,
       provideInfo: provideInfo.value,
     };

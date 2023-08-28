@@ -1,6 +1,5 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-const { executablePath } = require('puppeteer');
 async function submit(x, y, signatureText, data) {
   const pathToExtension = require('path').join(__dirname, '1stCAPTCHA');
 
@@ -51,90 +50,83 @@ async function submit(x, y, signatureText, data) {
       window.scrollTo(270, 0);
     });
   }
+  // 1 , 2 khac nhau email va nuoc
   if (data.selectInnerName === '1') {
     // Click
-    await page.locator('[id="666057160210034.0"]').click();
-    await page.locator('[id="666526966785308.0"]').click();
+    // await page.locator('[id="666057160210034.0"]').click();
+    await page.locator('[id="250116565117827.0"]').click();
 
     // Điền tên
-    await page.type('[id="213007228830668"]', name);
+    await page.type('[id="474274485979849"]', name);
 
     // Điền Địa chỉ gửi thư
-    await page.type('[id="429750330422486"]', addressSent);
+    await page.type('[id="364697220303015"]', addressSent);
 
     // Điền địa chỉ mail
-    await page.type('[id="622301541289923"]', addressMail);
-    await page.type('[id="1376658769024639"]', addressMail);
-
-    // Điền tên chủ sở hữu
-    await page.type('[id="1193690677387082"]', nameOwn);
-
-    // Điền liên kết sự hiện diện
-    await page.type('[id="817261985076647"]', showUrl);
-
-    // Điền nhãn hiệu
-    await page.type('[id="1876333722592163"]', branch);
+    await page.type('[id="244971059275452"]', addressMail);
+    await page.type('[id="755605467935533"]', addressMail);
 
     // Điền tên nước
-    await page.select('[id="3411356655770500"]', countryName);
+    await page.select('[id="645486236964608"]', countryName);
 
-    // Điền sổ đăng ký nhãn hiệu
-    await page.type('[id="332711233753465"]', trademarkRegister);
+    // Điền tên chủ sở hữu
+    await page.type('[id="1467491100178767"]', nameOwn);
 
     // Click nội dung báo cáo
-    await page.locator('[id="1112475925434379.0"]').click();
-    await page.locator('[id="1112475925434379.3"]').click();
+    await page.locator('[id="1076937109041279.0"]').click();
+    await page.locator('[id="1076937109041279.2"]').click();
+
+    // Điền liên kết sự hiện diện
+    await page.type('[id="173734026110493"]', showUrl);
 
     // Link cung cấp các liên kết URL
-    await page.type('[id="1622541521292980"]', provideUrl);
+    await page.type('[id="388149281267730"]', provideUrl);
+
     // Cung cấp thêm thông tin
-    await page.type('[id="125859267561673"]', provideInfo);
+    await page.type('[id="451242651624945"]', provideInfo);
 
     // Chu ky dien tu
-    await page.type('[id="348034581955173"]', signatureText);
-
+    await page.type('[id="159694930852744"]', signatureText);
     // Click vao submit
     await page.locator('._42ft').click();
+    await new Promise((resolve) => setTimeout(resolve, 20000));
+    await page.locator('[id="captcha_dialog_submit_button"]').click();
   } else if (data.selectInnerName === '2') {
-    await page.locator('[id="666526966785308.0"]').click();
+    // Click
+    // await page.locator('[id="666057160210034.0"]').click();
+    await page.locator('[id="250116565117827.0"]').click();
 
     // Điền tên
-    await page.type('[id="213007228830668"]', name);
+    await page.type('[id="474274485979849"]', name);
 
     // Điền Địa chỉ gửi thư
-    await page.type('[id="429750330422486"]', addressSent);
+    await page.type('[id="364697220303015"]', addressSent);
 
     // Điền địa chỉ mail
-    await page.type('[id="417723801904130"]', addressMail);
-    await page.type('[id="553785781487202"]', addressMail);
+    await page.type('[id="367587743601218"]', addressMail);
+    await page.type('[id="254868214933490"]', addressMail);
 
     // Điền tên chủ sở hữu
-    await page.type('[id="723355745001537"]', nameOwn);
-
-    // Điền liên kết sự hiện diện
-    await page.type('[id="143676840909563"]', showUrl);
-
-    // Điền nhãn hiệu
-    await page.type('[id="1876333722592163"]', branch);
+    await page.type('[id="1467491100178767"]', nameOwn);
 
     // Điền tên nước
-    await page.select('[id="1287167821880475"]', countryName);
-
-    // Điền sổ đăng ký nhãn hiệu
-    await page.type('[id="522072729133382"]', trademarkRegister);
+    await page.select('[id="785160866594563"]', countryName);
 
     // Click nội dung báo cáo
-    await page.locator('[id="1112475925434379.0"]').click();
-    await page.locator('[id="1112475925434379.3"]').click();
+    await page.locator('[id="1076937109041279.0"]').click();
+    await page.locator('[id="1076937109041279.3"]').click();
+
+    // Điền liên kết sự hiện diện
+    await page.type('[id="173734026110493"]', showUrl);
 
     // Link cung cấp các liên kết URL
-    await page.type('[id="774288576003882"]', provideUrl);
+    await page.type('[id="388149281267730"]', provideUrl);
 
     // Cung cấp thêm thông tin
-    await page.type('[id="125859267561673"]', provideInfo);
+    await page.type('[id="451242651624945"]', provideInfo);
 
     // Chu ky dien tu
-    await page.type('[id="348034581955173"]', signatureText);
+    await page.type('[id="159694930852744"]', signatureText);
 
     // Click vao submit
     await page.locator('._42ft').click();

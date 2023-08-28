@@ -23,6 +23,7 @@ app.post('/run-puppeteer', async (req, res) => {
   const position = req.body.position;
   try {
     const data = req.body.data;
+    // console.log(data);
     const signature = req.body.signature;
     // apiKey = data.apiKey;
     await submit(position.x, position.y, signature, data);

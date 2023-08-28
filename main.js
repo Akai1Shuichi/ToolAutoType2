@@ -26,8 +26,8 @@ function createWindow() {
     editMenu.popup(win, props.x, props.y);
   });
   // Khởi chạy child process để chạy server Express
-  server.listen(3000, () => {
-    console.log(`Server is on port 3000 !!!`);
+  server.listen(3001, () => {
+    console.log(`Server is on port 3001 !!!`);
   });
 }
 
