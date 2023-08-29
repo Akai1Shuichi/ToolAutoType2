@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
-async function submit(x, y, signatureText, data) {
+async function submit(x, y, signatureText, data, callback) {
   const pathToExtension = require('path').join(__dirname, '1stCAPTCHA');
 
   puppeteer.use(StealthPlugin());
@@ -14,15 +14,18 @@ async function submit(x, y, signatureText, data) {
       `--window-position=${x},${y}`,
       `--disable-extensions-except=${pathToExtension}`,
       `--load-extension=${pathToExtension}`,
+      '--disable-web-security',
+      '--disable-features=IsolateOrigins,site-per-process',
     ],
     executablePath:
       'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-    // executablePath(),
-    // 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   });
 
   const [page] = await browser.pages();
 
+  await page.setUserAgent(
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+  );
   await page.goto(data.selectName);
   await page.evaluate(() => {
     window.scrollTo(270, 0);
@@ -33,9 +36,9 @@ async function submit(x, y, signatureText, data) {
   const addressMail = data.addressMail;
   const nameOwn = data.nameOwn;
   const showUrl = data.showUrl;
-  const branch = data.branch;
+  // const branch = data.branch;
   const countryName = data.countryName;
-  const trademarkRegister = data.trademarkRegister;
+  // const trademarkRegister = data.trademarkRegister;
   const provideUrl = data.provideUrl;
   const provideInfo = data.provideInfo;
 
@@ -72,6 +75,9 @@ async function submit(x, y, signatureText, data) {
     // Điền tên chủ sở hữu
     await page.type('[id="1467491100178767"]', nameOwn);
 
+    // Mô tả nội dung bản quyền
+    await page.select('[id="418475341579315"]', 'Photo');
+
     // Click nội dung báo cáo
     await page.locator('[id="1076937109041279.0"]').click();
     await page.locator('[id="1076937109041279.2"]').click();
@@ -82,15 +88,39 @@ async function submit(x, y, signatureText, data) {
     // Link cung cấp các liên kết URL
     await page.type('[id="388149281267730"]', provideUrl);
 
+    // Mô tả nôi dung báo cáo
+    await page.select('[id="136284146523176"]', 'This content copies my work');
+
     // Cung cấp thêm thông tin
     await page.type('[id="451242651624945"]', provideInfo);
 
     // Chu ky dien tu
     await page.type('[id="159694930852744"]', signatureText);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     // Click vao submit
     await page.locator('._42ft').click();
-    await new Promise((resolve) => setTimeout(resolve, 20000));
-    await page.locator('[id="captcha_dialog_submit_button"]').click();
+
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Waiting for the element with the CSS selector ".captcha-solver" to be available
+
+    // Đợi iframe xuất hiên
+    await page.waitForSelector('#captcha-recaptcha');
+    // Truy cập vào iframe bằng cách sử dụng page.frame()
+    const iframeHandle = await page.$('#captcha-recaptcha');
+    const iframe = await iframeHandle.contentFrame();
+
+    await iframe.waitForSelector('.captcha-solver');
+    try {
+      await iframe.waitForSelector('.captcha-solver[data-state="solved"]', {
+        timeout: 30000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await page.locator('[id="captcha_dialog_submit_button"]').click();
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await browser.close();
+    } catch (e) {
+      throw new Error();
+    }
   } else if (data.selectInnerName === '2') {
     // Click
     // await page.locator('[id="666057160210034.0"]').click();
@@ -112,6 +142,9 @@ async function submit(x, y, signatureText, data) {
     // Điền tên nước
     await page.select('[id="785160866594563"]', countryName);
 
+    // Mô tả nội dung bản quyền
+    await page.select('[id="418475341579315"]', 'Photo');
+
     // Click nội dung báo cáo
     await page.locator('[id="1076937109041279.0"]').click();
     await page.locator('[id="1076937109041279.3"]').click();
@@ -122,20 +155,42 @@ async function submit(x, y, signatureText, data) {
     // Link cung cấp các liên kết URL
     await page.type('[id="388149281267730"]', provideUrl);
 
+    // Mô tả nội dung báo cáo
+    await page.select('[id="136284146523176"]', 'This content copies my work');
+
     // Cung cấp thêm thông tin
     await page.type('[id="451242651624945"]', provideInfo);
 
     // Chu ky dien tu
     await page.type('[id="159694930852744"]', signatureText);
 
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     // Click vao submit
     await page.locator('._42ft').click();
-    await new Promise((resolve) => setTimeout(resolve, 20000));
-    await page.locator('[id="captcha_dialog_submit_button"]').click();
-  }
 
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-  await browser.close();
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Waiting for the element with the CSS selector ".captcha-solver" to be available
+
+    // Đợi iframe xuất hiên
+    await page.waitForSelector('#captcha-recaptcha');
+    // Truy cập vào iframe bằng cách sử dụng page.frame()
+    const iframeHandle = await page.$('#captcha-recaptcha');
+    const iframe = await iframeHandle.contentFrame();
+
+    await iframe.waitForSelector('.captcha-solver');
+    try {
+      await iframe.waitForSelector('.captcha-solver[data-state="solved"]', {
+        timeout: 30000,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await page.locator('[id="captcha_dialog_submit_button"]').click();
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await browser.close();
+    } catch (e) {
+      throw new Error();
+    }
+  }
 }
 module.exports = {
   submit,

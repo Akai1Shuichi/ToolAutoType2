@@ -3,6 +3,7 @@ var Config = {
   default: {
     isPluginEnabled: true,
     apiKey: '1352d7383cbf4dc3921c1ecf60f56605',
+    // apiKey: '1352d7383cbf4dc3921c1ecf60f56605fake',
     valute: 'USD',
     email: null,
     autoSubmitForms: false,
@@ -94,5 +95,3 @@ var Config = {
     return res;
   },
 };
-
-console.log(Config.default.apiKey);

@@ -26,7 +26,16 @@ app.post('/run-puppeteer', async (req, res) => {
     // console.log(data);
     const signature = req.body.signature;
     // apiKey = data.apiKey;
-    await submit(position.x, position.y, signature, data);
+    try {
+      await submit(position.x, position.y, signature, data);
+    } catch (e) {
+      res.send({
+        message: `==> ${date()} Cửa sổ thứ ${
+          position.index
+        } không vượt được Captcha !!!\n`,
+      });
+      return;
+    }
     res.send({
       message: `==> ${date()} Cửa sổ thứ ${position.index} hoàn thành.\n`,
     });
