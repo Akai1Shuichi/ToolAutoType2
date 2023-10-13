@@ -1,6 +1,6 @@
 async function runPuppeteer(data, position, signature, callback) {
   try {
-    const response = await fetch('http://localhost:3001/run-puppeteer', {
+    const response = await fetch('http://localhost:3001/tool-2', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,8 +41,10 @@ const electronicSignature = document.querySelector(
 const result = document.querySelector('.result');
 const clear = document.querySelector('.clear');
 const start = document.querySelector('.start');
+const stop = document.querySelector('.stop');
 const select = document.querySelector('.select__link');
 // const apiKey = document.querySelector('.api_key');
+let isRunning = true;
 
 selectName = select.options[0].value;
 selectInnerNameText = select.options[0].innerText;
@@ -59,6 +61,7 @@ select.addEventListener('change', () => {
 });
 
 start.addEventListener('click', async () => {
+  isRunning = true;
   arraySignature = electronicSignature.value.split('|');
 
   if (arraySignature.length !== 0) {
@@ -111,6 +114,10 @@ start.addEventListener('click', async () => {
       );
     }
     await Promise.all(promise);
+    if (!isRunning) {
+      result.value = '';
+      // return;
+    }
     start.classList.remove('disabled');
     start.disabled = false;
   }
@@ -137,4 +144,19 @@ clear.addEventListener('click', () => {
   const index = select.selectedIndex;
   selectName = select.options[index].value;
   selectInnerNameText = select.options[index].innerText;
+});
+
+stop.addEventListener('click', () => {
+  fetch('http://localhost:3001/tool-2-close', { method: 'GET' })
+    .then((response) => response.text())
+    .then((data) => {
+      result.value = ''; // Hiển thị thông báo từ máy chủ
+    })
+    .catch((error) => {
+      console.error('Lỗi:', error);
+    });
+  isRunning = false;
+
+  start.classList.remove('disabled');
+  start.disabled = false;
 });

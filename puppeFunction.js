@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer-extra');
 const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+let browserArray = [];
 async function submit(x, y, signatureText, data, callback) {
   const pathToExtension = require('path').join(__dirname, '1stCAPTCHA');
 
@@ -20,7 +22,7 @@ async function submit(x, y, signatureText, data, callback) {
     executablePath:
       'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   });
-
+  browserArray.push(browser);
   const [page] = await browser.pages();
 
   await page.setUserAgent(
@@ -110,17 +112,18 @@ async function submit(x, y, signatureText, data, callback) {
     const iframe = await iframeHandle.contentFrame();
 
     await iframe.waitForSelector('.captcha-solver');
+    await iframe.click('.captcha-solver');
     try {
       await iframe.waitForSelector('.captcha-solver[data-state="solved"]', {
-        timeout: 30000,
+        timeout: 180000,
       });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      await page.locator('[id="captcha_dialog_submit_button"]').click();
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      await browser.close();
     } catch (e) {
       throw new Error();
     }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await page.locator('.pam ._42ft').click();
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await browser.close();
   } else if (data.selectInnerName === '2') {
     // Click
     // await page.locator('[id="666057160210034.0"]').click();
@@ -179,19 +182,29 @@ async function submit(x, y, signatureText, data, callback) {
     const iframe = await iframeHandle.contentFrame();
 
     await iframe.waitForSelector('.captcha-solver');
+    await iframe.click('.captcha-solver');
     try {
       await iframe.waitForSelector('.captcha-solver[data-state="solved"]', {
-        timeout: 30000,
+        timeout: 180000,
       });
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      await page.locator('[id="captcha_dialog_submit_button"]').click();
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-      await browser.close();
     } catch (e) {
       throw new Error();
     }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await page.locator('.pam ._42ft').click();
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await browser.close();
   }
 }
+
+async function stop() {
+  for (let i = 0; i < browserArray.length; i++) {
+    await browserArray[i].close();
+  }
+  browserArray = [];
+}
+
 module.exports = {
   submit,
+  stop,
 };

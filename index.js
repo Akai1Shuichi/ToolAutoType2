@@ -1,6 +1,6 @@
 // server.js
 const express = require('express');
-const { submit } = require('./puppeFunction.js');
+const { submit, stop } = require('./puppeFunction.js');
 const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post('/run-puppeteer', async (req, res) => {
+app.post('/tool-2', async (req, res) => {
   const position = req.body.position;
   try {
     const data = req.body.data;
@@ -46,5 +46,10 @@ app.post('/run-puppeteer', async (req, res) => {
       } không hoàn thành !!!\n`,
     });
   }
+});
+
+app.get('/tool-2-close', async (req, res) => {
+  await stop();
+  res.send('');
 });
 module.exports = { app };

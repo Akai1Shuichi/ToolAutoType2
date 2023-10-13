@@ -2,7 +2,7 @@
 var Config = {
   default: {
     isPluginEnabled: true,
-    apiKey: '1352d7383cbf4dc3921c1ecf60f56605',
+    apiKey: '1b2dab84cdd74cb787d1e96921504c60',
     // apiKey: '1352d7383cbf4dc3921c1ecf60f56605fake',
     valute: 'USD',
     email: null,
